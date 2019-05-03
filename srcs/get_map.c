@@ -6,13 +6,13 @@
 /*   By: vapiatko <vapiatko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 12:19:06 by apelissi          #+#    #+#             */
-/*   Updated: 2019/03/27 16:50:18 by vapiatko         ###   ########.fr       */
+/*   Updated: 2019/04/29 16:37:34 by vapiatko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/doom.h"
 
-int	line_handler(t_map *map, char *line)
+static int		line_handler(t_map *map, char *line)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ int	line_handler(t_map *map, char *line)
 	return (1);
 }
 
-int	get_dim(t_map *map, int fd)
+static int		get_dim(t_map *map, int fd)
 {
 	char	*line;
 	char	*temp;
@@ -57,13 +57,13 @@ int	get_dim(t_map *map, int fd)
 	return (1);
 }
 
-int	recup_grid(t_map *map, int fd)
+static int		recup_grid(t_map *map, int fd)
 {
 	int	i;
 
+	i = 0;
 	if (!(map->grid = (char **)malloc((map->t_y + 1) * sizeof(char *))))
 		return (0);
-	i = 0;
 	while (i < map->t_y)
 	{
 		if (!(map->grid[i] = (char *)malloc((map->t_x + 1) * sizeof(char))))
@@ -79,7 +79,7 @@ int	recup_grid(t_map *map, int fd)
 	return (1);
 }
 
-int	get_map(t_map *map, int fd)
+int				get_map(t_map *map, int fd)
 {
 	if (!(get_dim(map, fd)))
 		return (0);

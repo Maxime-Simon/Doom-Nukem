@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apelissi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: madecreu <madecreu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/12 14:00:10 by apelissi          #+#    #+#             */
-/*   Updated: 2019/03/21 13:21:19 by apelissi         ###   ########.fr       */
+/*   Created: 2018/12/05 12:06:02 by apelissi          #+#    #+#             */
+/*   Updated: 2019/04/27 19:05:05 by madecreu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/doom.h"
 
-t_env	*init_env(void)
+static t_env	*init_env(void)
 {
 	t_env	*e;
 
@@ -25,11 +25,31 @@ t_env	*init_env(void)
 	return (e);
 }
 
-int		main(int ac, char **av)
+void			check_filename(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isalnum(str[i]) == 0)
+			ft_exit(7);
+		i++;
+	}
+}
+
+int				main(int ac, char **av)
 {
 	int		fd;
 	t_env	*e;
 
+	if ((ac == 4 || ac == 5) && ft_strcmp(av[1], "-e") == 0)
+	{
+		if (ac == 5)
+			check_filename(av[4]);
+		ac == 4 ? start_edit(ft_atoi(av[2]), ft_atoi(av[3]), "Untitled")
+			: start_edit(ft_atoi(av[2]), ft_atoi(av[3]), av[4]);
+	}
 	e = NULL;
 	if (ac != 2)
 		ft_exit(2);
@@ -39,6 +59,7 @@ int		main(int ac, char **av)
 	if (!(get_map(e->map, fd)))
 		ft_exit(1);
 	ft_is_perso(e->map->grid);
+	ft_is_end(e->map->grid);
 	init_sdl(e);
 	return (0);
 }

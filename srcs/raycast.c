@@ -6,13 +6,14 @@
 /*   By: vapiatko <vapiatko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/12 13:06:27 by apelissi          #+#    #+#             */
-/*   Updated: 2019/03/27 16:50:23 by vapiatko         ###   ########.fr       */
+/*   Updated: 2019/05/01 14:24:05 by vapiatko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/doom.h"
+#include "../include/raycast.h"
 
-int		is_wall(float x, float y, t_map *m, int f)
+static int		is_wall(float x, float y, t_map *m, int f)
 {
 	int	mx;
 	int	my;
@@ -20,18 +21,17 @@ int		is_wall(float x, float y, t_map *m, int f)
 	mx = (int)x / TS - f % 2;
 	my = (int)y / TS - f % 3;
 	if (mx < 0 || mx >= m->t_x || my < 0 || my >= m->t_y
-		|| m->grid[my][mx] == '1' || m->grid[my][mx] == '2'
-		|| m->grid[my][mx] == '4')
+		|| is_visible_wall(m->grid[my][mx]))
 	{
 		if (mx < 0 || mx >= m->t_x || my < 0 || my >= m->t_y)
-			return ('1');
+			return ('E');
 		else
 			return (m->grid[my][mx]);
 	}
 	return (0);
 }
 
-void	get_all(t_column *c, t_dist d, t_ray r)
+static void		get_all(t_column *c, t_dist d, t_ray r)
 {
 	if (r.dx < r.dy)
 	{
@@ -49,49 +49,42 @@ void	get_all(t_column *c, t_dist d, t_ray r)
 		c->xi = d.am;
 		c->yi = d.bm;
 	}
+	c->this_height = find_height(c->num);
 }
 
-void	find_d(t_ray r, t_perso *p, t_map *m, t_column *c)
+static void		find_d(t_ray r, t_map *m, t_column *c, t_perso *p)
 {
 	t_dist	d;
+	int		temp;
 
-	d.xm = (int)(p->pos_x / TS + r.cfxa) * TS;
-	d.ym = r.coef * d.xm + p->pos_y - r.coef * p->pos_x;
-	d.ya = TS * tanf(r.a / 180 * M_PI);
-	while (!(d.tx = is_wall(d.xm, d.ym, m, r.cfxd)))
+	d = init_search(r, *c);
+	temp = c->last_height;
+	while (find_height(d.tx = is_wall(d.xm, d.ym, m, r.cfxd)) == temp
+			&& !is_end_wall(d.tx))
 	{
 		d.xm += r.cfxb * TS;
 		d.ym += r.cfxc * d.ya;
+		temp = find_height(d.tx);
 	}
 	r.dx = hypotf((float)(p->pos_x) - d.xm, (float)(p->pos_y) - d.ym);
-	d.bm = (int)(p->pos_y / TS + r.cfya) * TS;
-	d.am = (d.bm - (p->pos_y - r.coef * p->pos_x)) / r.coef;
-	d.xa = TS / tanf(r.a / 180 * M_PI);
-	while (!(d.ty = is_wall(d.am, d.bm, m, r.cfyd)))
+	temp = c->last_height;
+	while (find_height(d.ty = is_wall(d.am, d.bm, m, r.cfyd)) == temp
+			&& !is_end_wall(d.ty))
 	{
 		d.am += r.cfyb * d.xa;
 		d.bm += r.cfyc * TS;
+		temp = find_height(d.ty);
 	}
 	r.dy = hypotf((float)(p->pos_x) - d.am, (float)(p->pos_y) - d.bm);
 	get_all(c, d, r);
 }
 
-void	raycast(float d, t_perso *p, t_map *m, t_column *c)
+void			raycast(t_ray r, t_perso *p, t_map *m, t_column *c)
 {
-	t_ray	r;
-
-	d = (!d) ? 0.1 : d;
-	r.dd = d;
-	r.coef = cosf(d / 180 * M_PI) / sinf(d / 180 * M_PI);
-	r.a = (d < 180) ? 90 - d : 270 - d;
-	r.a = (d > 270 || (d > 90 && d < 180)) ? -r.a : r.a;
-	r.cfxa = (d < 180) ? 1 : 0;
-	r.cfxb = (d < 180) ? 1 : -1;
-	r.cfxc = (d < 90 || d > 270) ? 1 : -1;
-	r.cfxd = (d < 180) ? 6 : 3;
-	r.cfya = (d < 90 || d > 270) ? 1 : 0;
-	r.cfyb = (d < 180) ? 1 : -1;
-	r.cfyc = (d < 90 || d > 270) ? 1 : -1;
-	r.cfyd = (d < 90 || d > 270) ? 6 : 4;
-	find_d(r, p, m, c);
+	if (c->xi == -1)
+	{
+		c->xi = p->pos_x;
+		c->yi = p->pos_y;
+	}
+	find_d(r, m, c, p);
 }

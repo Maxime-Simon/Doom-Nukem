@@ -6,7 +6,7 @@
 /*   By: vapiatko <vapiatko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 11:58:12 by apelissi          #+#    #+#             */
-/*   Updated: 2019/03/27 16:50:17 by vapiatko         ###   ########.fr       */
+/*   Updated: 2019/04/25 17:08:36 by apelissi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,13 @@ int		get_color(char c, t_env *e, int i, int j)
 	{
 		e->pe->pos_x = j * TS + TS / 2;
 		e->pe->pos_y = i * TS + TS / 2;
-		return (G4);
+		return (LG4);
 	}
-	if (c == '0' || c == '@')
-		return (G4);
-	else if (c == '1' || c == '4')
-		return (G1);
-	else if (c == '2')
-		return (G2);
-	else if (c == '3')
-		return (G3);
-	else
-		return (G4);
+	if (!is_visible_wall(c))
+		return (LG4);
+	else if (is_touchable_wall(c))
+		return (LG1);
+	return (LG3);
 }
 
 void	make_line(t_env *e)
@@ -45,7 +40,7 @@ void	make_line(t_env *e)
 		b = 0;
 		while (b <= e->map->img_x)
 		{
-			e->map->data_map[a * e->map->img_x + b] = BLACK | 0xf0000000;
+			e->map->data_map[a * e->map->img_x + b] = LBLACK;
 			b++;
 		}
 		a = a + height;
@@ -65,7 +60,7 @@ void	make_column(t_env *e)
 		a = 0;
 		while (a <= e->map->img_y)
 		{
-			e->map->data_map[a * e->map->img_x + b] = BLACK | 0xf0000000;
+			e->map->data_map[a * e->map->img_x + b] = LBLACK;
 			a++;
 		}
 		b = b + width;
@@ -89,7 +84,7 @@ void	make_rectangle(int i, int j, t_env *e)
 		b = j * width;
 		while (b < (j + 1) * width)
 		{
-			e->map->data_map[a * e->map->img_x + b] = color | 0xf0000000;
+			e->map->data_map[a * e->map->img_x + b] = color;
 			b++;
 		}
 		a++;

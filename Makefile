@@ -1,8 +1,20 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vapiatko <vapiatko@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/04/27 15:44:23 by vapiatko          #+#    #+#              #
+#    Updated: 2019/05/03 17:55:29 by apelissi         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = doom-nukem
 
 SRCDIR = srcs/
 
-SRCNAMES =	expose_hook.c \
+SRCNAMES =  expose_hook.c \
 			get_grid.c \
 			get_map.c \
 			get_perso.c \
@@ -16,7 +28,29 @@ SRCNAMES =	expose_hook.c \
 			init_sdl.c\
 			mouse_hook.c\
 			print_hud.c\
-			render.c
+			print_torch.c\
+			is_wall.c\
+			init_raycast.c\
+			find_height.c\
+			build_text.c\
+			init_search_impacts.c\
+			print_wall.c\
+			wall_type.c\
+			skybox.c\
+			multi_thread.c\
+			draw_player.c\
+			make_co.c\
+			print_sprite.c\
+			editeur/main.c\
+			editeur/draw1.c\
+			editeur/draw2.c\
+			editeur/draw3.c\
+			editeur/map.c\
+			editeur/mouse_event.c\
+			editeur/exit.c\
+
+			
+
 
 INC = include/
 SRC = $(addprefix $(SRCDIR), $(SRCNAMES))
@@ -35,9 +69,9 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		@make -C libft/
-		@$(CC) $(CFLAGS) -o $(NAME) -I $(SDLFLAGS) -F $(FRAMEWKRS) $(SRC) $(LIBFT)
-		@echo "\033[0;32m[OK] \033[0m\033[0;33m Binary has been created:\033[0m " $@
+	@make -C libft/
+	@$(CC) $(CFLAGS) -o $(NAME) -I $(SDLFLAGS) -F $(FRAMEWKRS) $(SRC) $(LIBFT)
+	@echo "\033[0;32m[OK] \033[0m\033[0;33m Binary Has been Created:\033[0m " $@
 
 clean:
 	@make -C libft clean
@@ -45,9 +79,9 @@ clean:
 	@/bin/rm -f $(OBJ)
 
 fclean: clean
-		@make -C libft fclean
-		@echo "\033[0;32m[OK] \033[0m\033[0;33m :\033[0m " $@
-		@/bin/rm -f $(NAME)
+	@make -C libft fclean
+	@echo "\033[0;32m[OK] \033[0m\033[0;33m :\033[0m " $@
+	@/bin/rm -f $(NAME)
 
 re: fclean all
 
