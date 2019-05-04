@@ -41,6 +41,7 @@ SRCNAMES =  expose_hook.c \
 			draw_player.c\
 			make_co.c\
 			print_sprite.c\
+			ch_cl_bl.c\
 			editeur/main.c\
 			editeur/draw1.c\
 			editeur/draw2.c\
@@ -49,7 +50,7 @@ SRCNAMES =  expose_hook.c \
 			editeur/mouse_event.c\
 			editeur/exit.c\
 
-			
+
 
 
 INC = include/
@@ -65,6 +66,7 @@ CFLAGS = -Wall -Werror -Wextra
 SDLFLAGS = ~/Library/Frameworks/SDL2.framework/Versions/A/Headers
 FRAMEWKRS = ~/Library/Frameworks/ -framework SDL2
 RM = rm -f
+SANI = -fsanitize=address -g3
 
 all: $(NAME)
 

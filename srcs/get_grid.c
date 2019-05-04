@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_grid.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vapiatko <vapiatko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apelissi <apelissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/06 11:58:12 by apelissi          #+#    #+#             */
-/*   Updated: 2019/04/25 17:08:36 by apelissi         ###   ########.fr       */
+/*   Updated: 2019/05/04 14:55:25 by maxsimon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void	make_line(t_env *e)
 
 	height = e->map->img_y / e->map->t_y;
 	a = 0;
-	while (a <= e->map->img_y)
+	while (a <= e->map->img_y - height)
 	{
 		b = 0;
-		while (b <= e->map->img_x)
+		while (b <= e->map->img_x - height)
 		{
 			e->map->data_map[a * e->map->img_x + b] = LBLACK;
 			b++;
@@ -55,10 +55,10 @@ void	make_column(t_env *e)
 
 	width = e->map->img_x / e->map->t_x;
 	b = 0;
-	while (b <= e->map->img_x)
+	while (b <= e->map->img_x - width)
 	{
 		a = 0;
-		while (a <= e->map->img_y)
+		while (a <= e->map->img_y - width)
 		{
 			e->map->data_map[a * e->map->img_x + b] = LBLACK;
 			a++;

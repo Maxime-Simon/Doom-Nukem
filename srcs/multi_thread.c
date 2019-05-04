@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multi_thread.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: madecreu <madecreu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apelissi <apelissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 14:48:04 by apelissi          #+#    #+#             */
-/*   Updated: 2019/05/03 18:08:13 by apelissi         ###   ########.fr       */
+/*   Updated: 2019/05/04 13:49:40 by maxsimon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ int		multi_thread(t_env *e)
 		SDL_WaitThread(thread[i], NULL);
 		i++;
 	}
+	SDL_DestroyMutex(e->mutex);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vapiatko <vapiatko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 15:43:05 by vapiatko          #+#    #+#             */
-/*   Updated: 2019/05/03 15:24:44 by vapiatko         ###   ########.fr       */
+/*   Updated: 2019/05/04 12:31:52 by maxsimon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int		get_obj2(t_env *e)
 {
 	if (e->map->cur_bl == 'K')
 	{
-		e->o.key = 1;
+		e->o.key += 1;
 		return (1);
 	}
 	if (e->map->cur_bl == 'J')

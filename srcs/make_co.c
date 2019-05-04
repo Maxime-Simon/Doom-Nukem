@@ -66,7 +66,7 @@ void				make_co(int i, t_env *e, t_column c)
 			print_sprites(e);
 		check_sprite(e, c.num);
 	}
-	while (r.z < e->win_y + e->pe->pos_z)
+	while (r.z < e->win_y + e->pe->pos_z - 1)
 	{
 		if ((!c.nb_wall && c.last_num == -1)
 				|| e->data[i + e->win_x * (r.z - e->pe->pos_z)] == XX)

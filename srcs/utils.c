@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vapiatko <vapiatko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: apelissi <apelissi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 15:55:46 by apelissi          #+#    #+#             */
-/*   Updated: 2019/05/02 20:07:57 by vapiatko         ###   ########.fr       */
+/*   Updated: 2019/05/04 13:24:06 by maxsimon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,32 +90,4 @@ void	ft_is_end(char **grid)
 	}
 	if (p != 1)
 		ft_exit(1);
-}
-
-void	check_close_bl(t_env *e, t_perso *p)
-{
-	if (e->map->grid[((int)p->pos_y / TS) - 1][(int)p->pos_x / TS] == 'p'
-		&& e->o.key > 0)
-	{
-		e->map->grid[((int)p->pos_y / TS) - 1][(int)p->pos_x / TS] = '0';
-		e->o.key--;
-	}
-	else if (e->map->grid[((int)p->pos_y / TS) + 1][(int)p->pos_x / TS] == 'p'
-		&& e->o.key > 0)
-	{
-		e->map->grid[((int)p->pos_y / TS) + 1][(int)p->pos_x / TS] = '0';
-		e->o.key--;
-	}
-	else if (e->map->grid[(int)p->pos_y / TS][((int)p->pos_x / TS) - 1] == 'p'
-		&& e->o.key > 0)
-	{
-		e->map->grid[((int)p->pos_y) / TS][((int)p->pos_x / TS) - 1] = '0';
-		e->o.key--;
-	}
-	else if (e->map->grid[(int)p->pos_y / TS][((int)p->pos_x / TS) + 1] == 'p'
-		&& e->o.key > 0)
-	{
-		e->map->grid[(int)p->pos_y / TS][((int)p->pos_x / TS) + 1] = '0';
-		e->o.key--;
-	}
 }
